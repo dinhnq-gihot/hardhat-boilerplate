@@ -9,12 +9,16 @@ const accounts = [
   process.env.DEPLOYER_PRV as string,
 ]
 
+const local_accounts = [
+  process.env.LOCAL_DEPLOYER_PRV as string,
+]
+
 const config: HardhatUserConfig = {
   solidity: "0.8.24",
   networks: {
-    localhost: {
+    ganache: {
       url: "http://127.0.0.1:8545/",
-      accounts,
+      accounts: local_accounts,
     },
     // avax: {
     //   url: "https://api.avax-test.network/ext/bc/C/rpc",
@@ -22,10 +26,23 @@ const config: HardhatUserConfig = {
     //   accounts
     // },
   },
+  sourcify: {
+    enabled: true,
+  },
   etherscan: {
     apiKey: {
-      sepolia: process.env.ETHERSCAN_API_KEY as string,
+      ganache: `${process.env.ETHERSCAN_API_KEY as string}`
     },
+    customChains: [
+      {
+        network: 'ganache',
+        chainId: 1337,
+        urls: {
+          apiURL: 'http://localhost/api',
+          browserURL: 'http://localhost',
+        },
+      },
+    ]
   },
   abiExporter: {
     path: "./abi",
