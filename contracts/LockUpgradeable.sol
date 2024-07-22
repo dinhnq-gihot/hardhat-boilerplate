@@ -12,7 +12,6 @@ contract LockUpgradeable is Initializable {
 
     event Withdrawal(uint amount, uint when);
 
-
     function initialize(uint _unlockTime) public initializer {
         require(
             block.timestamp < _unlockTime,
@@ -35,7 +34,7 @@ contract LockUpgradeable is Initializable {
         owner.transfer(address(this).balance);
     }
 
-    function version() public pure returns(uint256) {
+    function version() public pure returns (uint256) {
         return 1;
     }
 }
